@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <input id="x" placeholder="X">
+    <input id="y" placeholder="Y">
+    <button onclick="send('plus')">+</button>
+    <button onclick="send('minus')">-</button>
+    <button onclick="send('multi')">x</button>
+    <button onclick="send('div')">÷</button>
+    <script>
+        function send(sign){
+            let X = document.getElementById("x").value;
+            let Y = document.getElementById("y").value;
+            location.href="/calculate?x="+X.toString()+"&y="+Y.toString()+"&sign="+sign;
+        }
+    </script>
+</div>
+</body>
+</html>
