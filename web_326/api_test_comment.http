@@ -9,8 +9,8 @@ POST http://localhost:8080/comment/add
 Content-Type: application/json
 
 {
-  "userId": "aaa",
-  "content": "A Test 1"
+  "userId": "nnn",
+  "content": "N Test 1"
 }
 
 ###

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Comments</title>
+    <script
+            src="http://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+</head>
+<body>
+<div>
+    <input id="inputUserId" placeholder="유저ID" style="width:200px;">
+    <input id="inputContent" placeholder="내용" style="width: 200px">
+    <button onclick="addComment()">등록</button>
+</div>
+<div id="comments-list"></div>
+<script>
+    async function getCommentList() {
+        try {
+            let response = await $.get('/comment/list');
+            $('#comments-list').html('');
+            for (let i = 0; i < response.length; i++) {
+                let comment = response[i];
+                $('#comments-list').append(`
+                    <div style="display: flex; border-bottom: 1px solid silver;">
+                        <div style="width: 150px;">${comment.id}</div>
+                        <div style="width: 150px;">${comment.userId}</div>
+                        <div style="width: 150px;">${comment.content}</div>
+                    </div>
+                `);
+            }
+        } catch (err) {
+            $('#comments-list').html(JSON.stringify(err));
+        }
+    }
+    async function addComment() {
+        try {
+            let newContent = {
+                userId:$('#inputUserId').val().trim(),
+                content:$('#inputContent').val().trim()
+            };
+            let response = await $.ajax({
+                type:"POST",
+                url:"/comment/add",
+                contentType : "application/json",
+                data: JSON.stringify(newContent),
+            });
+            $('#comments-list').append(`
+                    <div id="comment_${response.id}" style="display: flex; border-bottom: 1px solid silver;">
+                        <div style="width: 150px;">${response.id}</div>
+                        <div style="width: 150px;">${response.userId}</div>
+                        <div style="width: 150px;">${response.content}</div>
+                        <div><button onclick="deleteComment(${response.id})">삭제</button></div>
+                    </div>
+                `);
+        } catch (error) {
+
+        }
+    }
+    async function deleteComment(commentId){
+        try {
+            let response = await $.ajax({
+                type:"DELETE",
+                url:"/comment/delete/"+commentId
+            });
+            $(`#comment_${commentId}`).remove();
+        } catch (error) {
+            alert(error);
+        }
+    }
+    getCommentList();
+</script>
+</body>
+</html>

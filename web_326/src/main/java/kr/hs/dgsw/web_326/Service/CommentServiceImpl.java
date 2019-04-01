@@ -15,6 +15,11 @@ public class CommentServiceImpl implements CommentService {
 
     @Autowired
     private CommentRepository commentRepository;
+//
+//    public CommentServiceImpl(){
+////        Comment comment = new Comment("aaa", "A Comment 1");
+////        this.commentRepository.save(comment);
+//    }
 
     @Override
     public Comment commentAdd(Comment comment) {
