@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User</title>
+    <script     src="http://code.jquery.com/jquery-3.3.1.min.js"
+                integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+                crossorigin="anonymous"></script>
+</head>
+<body>
+<div>
+    <input id="regID" placeholder="ID">
+    <input id="regPW" placeholder="PW">
+    <input id="regUN" placeholder="Name">
+    <input id="regEM" placeholder="Email">
+    <button onclick="register()">회원가입</button>
+</div>
+<script>
+    async function register() {
+        try {
+            let data = {
+                id:$('#regID').val().trim(),
+                username:$('#regUN').val().trim(),
+                password:$('#regPW').val().trim(),
+                email:$('#regEM').val().trim()
+            };
+            let response = await $.ajax({
+                type:"POST",
+                url:"/user/register",
+                contentType:"application/json",
+                data: JSON.stringify(data),
+            });
+            alert(response);
+        } catch (err) {
+            alert(err)
+        }
+    }
+</script>
+</body>
+</html>
