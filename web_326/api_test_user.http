@@ -10,7 +10,9 @@ Content-Type: application/json
 
 {
   "username": "ccc",
-  "email": "ccc@dgsw"
+  "email": "ccc@dgsw",
+  "profileImagePath": "/profiles/default/default.jpg",
+  "profileImageNameOriginal": "default.jpg"
 }
 
 ###
@@ -25,12 +27,14 @@ Accept: application/json
 
 ###
 
-PUT http://localhost:8080/user/update/1
+PUT http://localhost:8080/user/update/4
 Content-Type: application/json
 
 {
-  "username": "aaaa",
-  "email": "aaaa@dgsw"
+  "username": "ccc",
+  "email": "ccc@dgsw",
+  "profileImagePath": "/profiles/2019/04/04/test.png",
+  "profileImageName": "default.jpg"
 }
 
 ###
@@ -39,3 +43,6 @@ DELETE http://localhost:8080/user/delete/2
 Accept: application/json
 
 ###
+
+POST http://localhost:8080/attachment
+Content-Type: application/json

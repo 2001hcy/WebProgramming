@@ -1,9 +1,11 @@
 package kr.hs.dgsw.web_326.Controller;
 
 import kr.hs.dgsw.web_326.Domain.User;
+import kr.hs.dgsw.web_326.Protocol.AttachmentProtocol;
 import kr.hs.dgsw.web_326.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -38,4 +40,8 @@ public class UserController {
         return this.userService.deleteUser(id);
     }
 
+    @PostMapping("/user/applyPP/{id}")
+    public AttachmentProtocol applyProfilePicture(@PathVariable Long id,@RequestPart MultipartFile srcFile){
+        return this.userService.applyProfilePicture(id,srcFile);
+    }
 }

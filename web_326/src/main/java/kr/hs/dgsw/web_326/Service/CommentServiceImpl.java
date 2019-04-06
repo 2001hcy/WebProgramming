@@ -6,6 +6,7 @@ import kr.hs.dgsw.web_326.Repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -15,11 +16,13 @@ public class CommentServiceImpl implements CommentService {
 
     @Autowired
     private CommentRepository commentRepository;
-//
-//    public CommentServiceImpl(){
-////        Comment comment = new Comment("aaa", "A Comment 1");
-////        this.commentRepository.save(comment);
-//    }
+
+    @PostConstruct
+    public void init(){
+        this.commentRepository.save(new Comment("aaa", "A Comment 1"));
+        this.commentRepository.save(new Comment("bbb", "B Comment 1"));
+        this.commentRepository.save(new Comment("ccc", "C Comment 1"));
+    }
 
     @Override
     public Comment commentAdd(Comment comment) {
