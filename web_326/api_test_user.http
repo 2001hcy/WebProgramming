@@ -9,10 +9,10 @@ POST http://localhost:8080/user/add
 Content-Type: application/json
 
 {
-  "username": "ccc",
-  "email": "ccc@dgsw",
-  "profileImagePath": "/profiles/default/default.jpg",
-  "profileImageNameOriginal": "default.jpg"
+  "id": "2001_hcy",
+  "password": "a123123",
+  "username": "허찬영",
+  "email": "2001_hcy@naver.com"
 }
 
 ###
