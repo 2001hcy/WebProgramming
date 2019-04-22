@@ -25,6 +25,11 @@ public class User {
     @UpdateTimestamp
     private LocalDateTime modified;
 
+    public User(String id, String password) {
+        this.id = id;
+        this.password = password;
+    }
+
     public User(String id, String username, String password, String email) {
         this.id = id;
         this.username = username;

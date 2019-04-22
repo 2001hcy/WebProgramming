@@ -3,36 +3,130 @@
 <head>
     <meta charset="UTF-8">
     <title>User</title>
-    <script     src="http://code.jquery.com/jquery-3.3.1.min.js"
-                integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-                crossorigin="anonymous"></script>
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
 </head>
 <body>
 <div>
-    <input id="regID" placeholder="ID">
-    <input id="regPW" placeholder="PW">
-    <input id="regUN" placeholder="Name">
-    <input id="regEM" placeholder="Email">
+    <div>
+        <input id="regID" placeholder="ID">
+        <input id="regPW" placeholder="PW" type="password">
+    </div>
+    <div>
+        <input id="regUN" placeholder="Name">
+        <input id="regEM" placeholder="Email">
+    </div>
     <button onclick="register()">회원가입</button>
 </div>
+<br>
+<div>
+    <div>
+        <input id="loginID" placeholder="ID">
+        <input id="loginPW" placeholder="PW">
+    </div>
+    <button onclick="login()">로그인</button>
+</div>
+<div>
+    ID<div id="result_ID"></div>
+    <br>
+    Password<div id="result_PW"></div>
+    <br>
+    Username<div id="result_UN"></div>
+    <br>
+    Email<div id="result_EM"></div>
+</div>
+<div>
+    <button onclick="remove()">삭제</button>
+    <button onclick="update()" id="btnUpdate">수정</button>
+</div>
 <script>
+    async function login() {
+        try {
+            let data = {
+                id: $('#loginID').val(),
+                password: $('#loginPW').val()
+            };
+            let response = await $.ajax({
+                type: "POST",
+                url: `/user/login/${data.id}`,
+                contentType: "application/json",
+                data: JSON.stringify(data)
+            });
+            $('#result_ID').append(response.id);
+            $('#result_PW').append(response.password);
+            $('#result_UN').append(response.username);
+            $('#result_EM').append(response.email);
+        } catch (err) {
+            alert("에러:"+err);
+        }
+    }
+
+
     async function register() {
         try {
             let data = {
-                id:$('#regID').val().trim(),
-                username:$('#regUN').val().trim(),
-                password:$('#regPW').val().trim(),
-                email:$('#regEM').val().trim()
+                id: $('#regID').val().trim(),
+                username: $('#regUN').val().trim(),
+                password: $('#regPW').val().trim(),
+                email: $('#regEM').val().trim()
             };
             let response = await $.ajax({
-                type:"POST",
-                url:"/user/register",
-                contentType:"application/json",
+                type: "POST",
+                url: "/user/register",
+                contentType: "application/json",
                 data: JSON.stringify(data),
             });
-            alert(response);
+            alert(JSON.stringify(response));
         } catch (err) {
             alert(err)
+        }
+    }
+
+    async function update() {
+        let status = $("#btnUpdate");
+        let tagPW = $("#result_PW");
+        let tagEmail = $("#result_EM");
+        let tagName = $("#result_UN");
+        if (status.html() === "수정") {
+            tagPW.html(`<input id="result_PW" type='text' value=${tagPW.html()}>`);
+            tagEmail.html(`<input id="result_EM" type='text' value="${tagEmail.html()}">`);
+            tagName.html(`<input id="result_UN" type='text' value="${tagName.html()}">`);
+            status.html("확인");
+        } else {
+            try {
+                alert();
+                let data = {
+                    id: $("#result_ID").html(),
+                    username: tagName.find("input").val(),
+                    password: tagPW.find("input").val(),
+                    email: tagEmail.find("input").val()
+                };
+                let response = await $.ajax({
+                    type: "POST",
+                    url: "/user/update",
+                    contentType: "application/json",
+                    data: JSON.stringify(data),
+                });
+                alert(JSON.stringify(response));
+                $("#result_PW").html(`<div id="result_PW">${response.password}</div>`);
+                $("#result_EM").html(`<div id="result_EM">${response.email}</div>`);
+                $("#result_UN").html(`<div id="result_UN">${response.username}</div>`);
+            } catch (err) {
+                alert(err)
+            }
+        }
+    }
+    
+    async function remove() {
+        try {
+            let id = $('#result_ID').html();
+            await $.ajax({
+                type: "DELETE",
+                url: `/user/delete/${id}`
+            });
+        } catch (err) {
+            alert(JSON.stringify(err));
         }
     }
 </script>
